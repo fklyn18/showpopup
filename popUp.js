@@ -9,8 +9,12 @@ jQuery(document).ready(function ($){
             var configuración = $.extend({
                 width: 0,
                 height: 0,
-                url: document.URL,
-                nombre: '_blank'
+                url: '',
+                name: '_blank',
+                title: '',
+                content: '',
+                css: '',
+                js: ''
             }, opciones);
             return this.each(function (){
                 $(this).click(function (e){
@@ -21,9 +25,8 @@ jQuery(document).ready(function ($){
                     var heigthVentana = 0;
                     var posLeft = 0;
                     var error = 0;
+                    var css = '';
                     var msj = "Error\n==========================\n";
-
-
 
                     // capturar el ancho y alto del monitor
                     widthMonitor 	= parseInt(screen.width);
@@ -89,16 +92,24 @@ jQuery(document).ready(function ($){
 
                     // verificar si no hay ningun error
                     if (!error > 0){
-                        //alert(configuración.url);
-                        // crear la ventana emergente que se mostrara
-                        var newPopUp = window.open(configuración.url, configuración.nombre, 'width='+widthVentana+'px, height='+heigthVentana+'px,left='+posLeft+'px, top=0px, scrollbars=yes, addressbar=0, menubar=0, toolbar=0');
-                        // verificar si no esta bloqueado las ventanas emergentes
-                        //if (newPopUp == null || typeof(newPopUp)=='undefined') {
-                        //    error=1;
-                        //    msj+="\n * Verifica que no esten otras ventanas emergentes abiertas, actualiza el navegador o favor deshabilita el bloqueador de ventanas emergentes y vuelve a realizar la operación.";
-                        //}else {
-                        //    newPopUp.focus();
-                        //}
+
+                        css = 'embed{overflow:hidden; height: '+(heigthVentana-40)+'px;}iframe{border: 0px; height: '+(heigthVentana-40)+'}';
+                        if (configuración.content != '') {
+                            // crear la ventana emergente que se mostrara
+                            var newPopUp = window.open('', configuración.nombre, 'width='+widthVentana+'px, height='+heigthVentana+'px,left='+posLeft+'px, top=0px, scrollbars=yes, addressbar=0, menubar=0, toolbar=0');
+                            newPopUp.document.write('<title>'+configuración.title+'</title>');
+                            newPopUp.document.write('<style>'+css+configuración.css+'</style>');
+                            newPopUp.document.write('<script>'+configuración.js+'</script>');
+                            newPopUp.document.write(configuración.content);
+                        }else{
+                            // crear la ventana emergente que se mostrara
+                            var newPopUp = window.open(configuración.url, configuración.nombre, 'width='+widthVentana+'px, height='+heigthVentana+'px,left='+posLeft+'px, top=0px, scrollbars=yes, addressbar=0, menubar=0, toolbar=0');
+                            // verificar si no esta bloqueado las ventanas emergentes
+                            if (newPopUp == null || typeof(newPopUp)=='undefined') {
+                                error=1;
+                                msj+="\n * Verifica que no esten otras ventanas emergentes abiertas, actualiza el navegador o favor deshabilita el bloqueador de ventanas emergentes y vuelve a realizar la operación.";
+                            }
+                        }
                     }
                     if (error > 0){
                         alert(msj);
