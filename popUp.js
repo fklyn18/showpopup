@@ -10,7 +10,7 @@ jQuery(document).ready(function ($){
                 width: 0,
                 height: 0,
                 url: document.URL,
-                nombre: 'miVentana'
+                nombre: '_blank'
             }, opciones);
             return this.each(function (){
                 $(this).click(function (e){
@@ -20,7 +20,6 @@ jQuery(document).ready(function ($){
                     var widthVentana = 0;
                     var heigthVentana = 0;
                     var posLeft = 0;
-                    var target = '_blank';
                     var error = 0;
                     var msj = "Error\n==========================\n";
 
@@ -92,7 +91,7 @@ jQuery(document).ready(function ($){
                     if (!error > 0){
                         //alert(configuración.url);
                         // crear la ventana emergente que se mostrara
-                        var newPopUp = window.open(configuración.url, target, 'width='+widthVentana+'px, height='+heigthVentana+'px,left='+posLeft+'px, top=0px, scrollbars=yes, addressbar=0, menubar=0, toolbar=0');
+                        var newPopUp = window.open(configuración.url, configuración.nombre, 'width='+widthVentana+'px, height='+heigthVentana+'px,left='+posLeft+'px, top=0px, scrollbars=yes, addressbar=0, menubar=0, toolbar=0');
                         // verificar si no esta bloqueado las ventanas emergentes
                         //if (newPopUp == null || typeof(newPopUp)=='undefined') {
                         //    error=1;
